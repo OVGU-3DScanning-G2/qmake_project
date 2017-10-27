@@ -1,3 +1,5 @@
 *.o
 Makefile
 *.swp
+moc_*
+.qmake.stash
