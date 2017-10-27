@@ -5,6 +5,9 @@
 #include "GLwidget.h"
 #include "Point3d.h"
 
+#include "../Exercise_1/KDTree.h"
+
+
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
