@@ -2,7 +2,7 @@
 
 To clone this use:
 ```sh
-git clone git@github.com:OVGU-3DScanning-G2/qmake_project.git --recursive
+git clone -b Exercise_1 git@github.com:OVGU-3DScanning-G2/qmake_project.git --recursive
 ```
 
 To update all submodules recursively:
