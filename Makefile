@@ -13,8 +13,8 @@ MAKEFILE      = Makefile
 CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CFLAGS        = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES) -lglut -lGLU -lGL
+CXXFLAGS      = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES) -lglut -lGLU -lGL
 INCPATH       = -I. -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I. -isystem /usr/include/libdrm -I/usr/lib/qt/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake
 DEL_FILE      = rm -f
@@ -38,9 +38,9 @@ DISTNAME      = Exercise_11.0.0
 DISTDIR = /home/anaeijon/Dropbox/Workspaces/3D_Scanning/Exercise_1/.tmp/Exercise_11.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
-LIBS          = $(SUBLIBS) -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -lQt5Gui -lQt5Core -lGL -lpthread
 AR            = ar cqs
-RANLIB        = 
+RANLIB        =
 SED           = sed
 STRIP         = strip
 
@@ -50,22 +50,16 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp \
-		mainwindow.cpp \
-		source/GLcamera.cpp \
+SOURCES       = source/GLcamera.cpp \
 		source/GLwidget.cpp \
 		source/MainWindow.cpp \
 		source/OpenGL_App_QT.cpp \
-		source/Point3d.cpp moc_mainwindow.cpp \
-		moc_MainWindow.cpp
-OBJECTS       = main.o \
-		mainwindow.o \
-		GLcamera.o \
+		source/Point3d.cpp moc_MainWindow.cpp
+OBJECTS       = GLcamera.o \
 		GLwidget.o \
 		MainWindow.o \
 		OpenGL_App_QT.o \
 		Point3d.o \
-		moc_mainwindow.o \
 		moc_MainWindow.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
@@ -321,6 +315,7 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/qt_config.prf \
 		/usr/lib/qt/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/qt/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/qt/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/qt/mkspecs/features/toolchain.prf \
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
@@ -338,27 +333,24 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		Exercise_1.pro mainwindow.h \
-		GLFW/glfw3.h \
+		Exercise_1.pro GLFW/glfw3.h \
 		include/GLcamera.h \
 		include/GLwidget.h \
 		include/MainWindow.h \
-		include/Point3d.h main.cpp \
-		mainwindow.cpp \
-		source/GLcamera.cpp \
+		include/Point3d.h source/GLcamera.cpp \
 		source/GLwidget.cpp \
 		source/MainWindow.cpp \
 		source/OpenGL_App_QT.cpp \
 		source/Point3d.cpp
 QMAKE_TARGET  = Exercise_1
-DESTDIR       = 
+DESTDIR       =
 TARGET        = Exercise_1
 
 
 first: all
 ####### Build rules
 
-$(TARGET):  $(OBJECTS)  
+$(TARGET):  $(OBJECTS)
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: Exercise_1.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -615,6 +607,7 @@ Makefile: Exercise_1.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mk
 		/usr/lib/qt/mkspecs/features/qt_config.prf \
 		/usr/lib/qt/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/qt/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/qt/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/qt/mkspecs/features/toolchain.prf \
 		/usr/lib/qt/mkspecs/features/default_pre.prf \
@@ -890,6 +883,7 @@ Makefile: Exercise_1.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mk
 /usr/lib/qt/mkspecs/features/qt_config.prf:
 /usr/lib/qt/mkspecs/linux-g++/qmake.conf:
 /usr/lib/qt/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/qt/mkspecs/features/exclusive_builds.prf:
 /usr/lib/qt/mkspecs/features/toolchain.prf:
 /usr/lib/qt/mkspecs/features/default_pre.prf:
@@ -925,17 +919,17 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h GLFW/glfw3.h include/GLcamera.h include/GLwidget.h include/MainWindow.h include/Point3d.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp source/GLcamera.cpp source/GLwidget.cpp source/MainWindow.cpp source/OpenGL_App_QT.cpp source/Point3d.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents GLFW/glfw3.h include/GLcamera.h include/GLwidget.h include/MainWindow.h include/Point3d.h $(DISTDIR)/
+	$(COPY_FILE) --parents source/GLcamera.cpp source/GLwidget.cpp source/MainWindow.cpp source/OpenGL_App_QT.cpp source/Point3d.cpp $(DISTDIR)/
 
 
-clean: compiler_clean 
+clean: compiler_clean
 	-$(DEL_FILE) $(OBJECTS)
 	-$(DEL_FILE) *~ core *.core
 
 
-distclean: clean 
-	-$(DEL_FILE) $(TARGET) 
+distclean: clean
+	-$(DEL_FILE) $(TARGET)
 	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
@@ -958,14 +952,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -dM -E -o moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_MainWindow.cpp
+compiler_moc_header_make_all: moc_MainWindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_MainWindow.cpp
-moc_mainwindow.cpp: mainwindow.h \
-		moc_predefs.h \
-		/usr/bin/moc
-	/usr/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/anaeijon/Dropbox/Workspaces/3D_Scanning/Exercise_1 -I/home/anaeijon/Dropbox/Workspaces/3D_Scanning/Exercise_1 -I/usr/include/qt -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/7.2.0 -I/usr/include/c++/7.2.0/x86_64-pc-linux-gnu -I/usr/include/c++/7.2.0/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.2.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/7.2.0/include-fixed -I/usr/include mainwindow.h -o moc_mainwindow.cpp
-
+	-$(DEL_FILE) moc_MainWindow.cpp
 moc_MainWindow.cpp: include/GLwidget.h \
 		include/Point3d.h \
 		include/GLcamera.h \
@@ -982,15 +971,9 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean 
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
-
-main.o: main.cpp mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
-
-mainwindow.o: mainwindow.cpp mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
 GLcamera.o: source/GLcamera.cpp include/GLcamera.h \
 		include/Point3d.h \
@@ -1017,10 +1000,7 @@ OpenGL_App_QT.o: source/OpenGL_App_QT.cpp include/MainWindow.h \
 Point3d.o: source/Point3d.cpp include/Point3d.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Point3d.o source/Point3d.cpp
 
-moc_mainwindow.o: moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
-
-moc_MainWindow.o: moc_MainWindow.cpp 
+moc_MainWindow.o: moc_MainWindow.cpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MainWindow.o moc_MainWindow.cpp
 
 ####### Install
@@ -1030,4 +1010,3 @@ install:  FORCE
 uninstall:  FORCE
 
 FORCE:
-
