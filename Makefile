@@ -13,8 +13,8 @@ MAKEFILE      = Makefile
 CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES) -lglut -lGLU -lGL
-CXXFLAGS      = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES) -lglut -lGLU -lGL
+CFLAGS        = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -I. -isystem /usr/include/qt -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -I. -isystem /usr/include/libdrm -I/usr/lib/qt/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake
 DEL_FILE      = rm -f
@@ -38,9 +38,9 @@ DISTNAME      = Exercise_11.0.0
 DISTDIR = /home/anaeijon/Dropbox/Workspaces/3D_Scanning/Exercise_1/.tmp/Exercise_11.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
-LIBS          = $(SUBLIBS) -lQt5Gui -lQt5Core -lGL -lpthread
+LIBS          = $(SUBLIBS) -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
-RANLIB        =
+RANLIB        = 
 SED           = sed
 STRIP         = strip
 
@@ -343,14 +343,14 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		source/OpenGL_App_QT.cpp \
 		source/Point3d.cpp
 QMAKE_TARGET  = Exercise_1
-DESTDIR       =
+DESTDIR       = 
 TARGET        = Exercise_1
 
 
 first: all
 ####### Build rules
 
-$(TARGET):  $(OBJECTS)
+$(TARGET):  $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: Exercise_1.pro /usr/lib/qt/mkspecs/linux-g++/qmake.conf /usr/lib/qt/mkspecs/features/spec_pre.prf \
@@ -923,13 +923,13 @@ distdir: FORCE
 	$(COPY_FILE) --parents source/GLcamera.cpp source/GLwidget.cpp source/MainWindow.cpp source/OpenGL_App_QT.cpp source/Point3d.cpp $(DISTDIR)/
 
 
-clean: compiler_clean
+clean: compiler_clean 
 	-$(DEL_FILE) $(OBJECTS)
 	-$(DEL_FILE) *~ core *.core
 
 
-distclean: clean
-	-$(DEL_FILE) $(TARGET)
+distclean: clean 
+	-$(DEL_FILE) $(TARGET) 
 	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
@@ -971,7 +971,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean 
 
 ####### Compile
 
@@ -1000,7 +1000,7 @@ OpenGL_App_QT.o: source/OpenGL_App_QT.cpp include/MainWindow.h \
 Point3d.o: source/Point3d.cpp include/Point3d.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Point3d.o source/Point3d.cpp
 
-moc_MainWindow.o: moc_MainWindow.cpp
+moc_MainWindow.o: moc_MainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MainWindow.o moc_MainWindow.cpp
 
 ####### Install
@@ -1010,3 +1010,4 @@ install:  FORCE
 uninstall:  FORCE
 
 FORCE:
+
