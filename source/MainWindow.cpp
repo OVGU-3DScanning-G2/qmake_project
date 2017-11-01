@@ -58,8 +58,8 @@ void MainWindow::loadFileXYZ(const char* filename, std::vector<Point3d>& points)
     std::cout << "reading file: " << filename << std::endl;
     double a,b,c;
     while(file >> a >> b >> c)
-        points.push_back(Point3d(a,b,c));
-//        points.emplace_back(a,b,c);// equal to the cmd above
+//        points.push_back(Point3d(a,b,c));
+        points.emplace_back(a,b,c);// equal to the cmd above
 
     size_t numberOfPoints = points.size();
     std::cout << "reading finished: " << numberOfPoints << " points have be read" << std::endl;
