@@ -16,6 +16,8 @@ TEMPLATE = app
 
 
 SOURCES += $$files(source/*.cpp)
+SOURCES += $$files(Exercise_1/*.cpp)
 
 HEADERS  += $$files(include/*.h)
+HEADERS += $$files(Exercise_1/*.h)
 
